@@ -15,22 +15,16 @@ function indent() {
 
 unset GIT_DIR
 
-for BUILDPACK in $(cat $1/.buildpacks); do
+while read buildpack subdir; do
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
-  parts=($BUILDPACK)
-
-  buildpack=${parts[0]}
-  subdir=${parts[1]}
-
-  echo "=====> Raw buildpack definition: '${BUILDPACK}'"
-  echo "=====> Raw buildpack url:        '${buildpack}'"
-  echo "=====> Optional sub directory:   '${subdir}'"
+  echo "=====> Raw buildpack url: ${buildpack}"
+  echo "=====> Optional sub directory: ${subdir}"
 
   if [ "$subdir" != "" ]; then
     # TDO: detect whether the subdir exists and fail hard if it doesn't
-    echo "=====> Building project directory: $subdir"
+    echo "=====> Building project from subdirectory: $subdir"
   fi
 
   url=${buildpack%#*}
@@ -85,7 +79,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       echo "=====> No framework detected"
     fi
   fi
-done
+done > $1/.buildpacks
 
 if [ -e $1/last_pack_release.out ]; then
   echo "Using release configuration from last framework $framework:" | indent
