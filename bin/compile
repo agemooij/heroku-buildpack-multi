@@ -52,6 +52,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
     framework=$($dir/bin/detect $1)
 
+    echo "=====> Finished detecting framework. Result: $?"
+
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
       $dir/bin/compile $1 $2
