@@ -57,6 +57,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       if [ -x $dir/bin/release ]; then
         $dir/bin/release $1 > $1/last_pack_release.out
       fi
+    else
+      echo "=====> No framework detected"
     fi
   fi
 done
