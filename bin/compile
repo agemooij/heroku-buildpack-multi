@@ -24,6 +24,10 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   buildpack=${parts[0]}
   subdir=${parts[1]}
 
+  if [ "$subdir" != "" ]; then
+    echo "=====> Building project directory: $subdir"
+  fi
+
   url=${buildpack%#*}
   branch=${buildpack#*#}
 
