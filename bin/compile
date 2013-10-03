@@ -24,7 +24,12 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   buildpack=${parts[0]}
   subdir=${parts[1]}
 
+  echo "=====> Raw buildpack definition: '${BUILDPACK}'"
+  echo "=====> Raw buildpack url:        '${buildpack}'"
+  echo "=====> Optional sub directory:   '${subdir}'"
+
   if [ "$subdir" != "" ]; then
+    # TDO: detect whether the subdir exists and fail hard if it doesn't
     echo "=====> Building project directory: $subdir"
   fi
 
