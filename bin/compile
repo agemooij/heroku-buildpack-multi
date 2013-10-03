@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "=====> Building to: $1"
+echo "=====> Caching to: $2"
+
 set -e
 
 function indent() {
