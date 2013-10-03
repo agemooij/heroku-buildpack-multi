@@ -19,8 +19,13 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
-  url=${BUILDPACK%#*}
-  branch=${BUILDPACK#*#}
+  parts=($BUILDPACK)
+
+  buildpack=${parts[0]}
+  subdir=${parts[1]}
+
+  url=${buildpack%#*}
+  branch=${buildpack#*#}
 
   if [ "$branch" == "$url" ]; then
     branch=""
@@ -50,13 +55,13 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
     echo "=====> Detecting framework..."
 
-    framework=$($dir/bin/detect $1)
+    framework=$($dir/bin/detect $1/$subdir)
 
-    echo "=====> Finished detecting framework. Result: $?"
+    echo "=====> Finished detecting framework. Result: $? $framework"
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
-      $dir/bin/compile $1 $2
+      $dir/bin/compile $1/$subdir $2
 
       if [ $? != 0 ]; then
         echo "=====> Compile failed..."
@@ -65,7 +70,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
       if [ -x $dir/bin/release ]; then
         echo "=====> Running the release script..."
-        $dir/bin/release $1 > $1/last_pack_release.out
+        $dir/bin/release $1/$subdir > $1/last_pack_release.out
       fi
     else
       echo "=====> No framework detected"
