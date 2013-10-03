@@ -79,7 +79,7 @@ while read buildpack subdir; do
       echo "=====> No framework detected"
     fi
   fi
-done > $1/.buildpacks
+done < $1/.buildpacks
 
 if [ -e $1/last_pack_release.out ]; then
   echo "Using release configuration from last framework $framework:" | indent
