@@ -2,7 +2,7 @@
 
 echo "=====> Building to: $1"
 echo "=====> Caching to: $2"
-
+echo "=====> ENV_DIR passed: $3"
 set -e
 
 function indent() {
@@ -57,7 +57,7 @@ while read buildpack subdir; do
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
 
-      $dir/bin/compile $1/$subdir $2
+      $dir/bin/compile $1/$subdir $2 $3
 
       if [ $? != 0 ]; then
         echo "=====> Compile failed..."
